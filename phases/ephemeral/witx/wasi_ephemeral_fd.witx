@@ -50,7 +50,7 @@
   )
 
   ;;; Get the attributes of a file descriptor.
-  ;;; Note: This returns similar flags to `fsync(fd, F_GETFL)` in POSIX, as well as additional fields.
+  ;;; Note: This returns similar flags to `fcntl(fd, F_GETFL)` in POSIX, as well as additional fields.
   (@interface func (export "fdstat_get")
     (param $fd $fd)
     (result $error $errno)
@@ -185,7 +185,7 @@
   ;;; directory entries. Each directory entry consists of a dirent_t object,
   ;;; followed by dirent_t::d_namlen bytes holding the name of the directory
   ;;; entry.
-  ;;
+  ;;;
   ;;; This function fills the output buffer as much as possible, potentially
   ;;; truncating the last directory entry. This allows the caller to grow its
   ;;; read buffer size in case it's too small to fit a single large directory
@@ -203,13 +203,13 @@
   )
 
   ;;; Atomically replace a file descriptor by renumbering another file descriptor.
-  ;;
+  ;;;
   ;;; Due to the strong focus on thread safety, this environment does not provide
   ;;; a mechanism to duplicate or renumber a file descriptor to an arbitrary
   ;;; number, like `dup2()`. This would be prone to race conditions, as an actual
   ;;; file descriptor with the same number could be allocated by a different
   ;;; thread at the same time.
-  ;;
+  ;;;
   ;;; This function provides a way to atomically renumber file descriptors, which
   ;;; would disappear if `dup2()` were to be removed entirely.
   (@interface func (export "renumber")

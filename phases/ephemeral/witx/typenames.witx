@@ -1,10 +1,15 @@
-;; Type names used by low-level WASI interfaces.
+;; Types used by low-level WASI interfaces.
 ;;
 ;; Some content here is derived from [CloudABI](https://github.com/NuxiNL/cloudabi).
 ;;
 ;; This is a `witx` file. See [here](https://github.com/WebAssembly/WASI/tree/master/docs/witx.md)
 ;; for an explanation of what that means.
 
+;;; The "size" type. This is an integer which is sufficient to hold the
+;;; size of any contiguously allocated range of bytes in the program's
+;;; linear memory.
+;;;
+;;; Note: This is similar to `size_t` in POSIX.
 (typename $size (@witx usize))
 
 ;;; Non-negative file size or length of a region within a file.
@@ -18,11 +23,15 @@
   (enum u32
     ;;; The clock measuring real time. Time value zero corresponds with
     ;;; 1970-01-01T00:00:00Z.
+    ;;;
+    ;;; Note: This is similar to `CLOCK_REALTIME` in POSIX.
     $realtime
     ;;; The store-wide monotonic clock, which is defined as a clock measuring
     ;;; real time, whose value cannot be adjusted and which cannot have negative
     ;;; clock jumps. The epoch of this clock is undefined. The absolute time
     ;;; value of this clock therefore has no meaning.
+    ;;;
+    ;;; Note: This is similar to `CLOCK_MONOTONIC` in POSIX.
     $monotonic
     ;;; The CPU-time clock associated with the current process.
     $process_cputime_id
@@ -198,12 +207,12 @@
 (typename $rights
   (flags u64
     ;;; The right to invoke `fd_datasync`.
-    ;;
+    ;;;
     ;;; If `path_open` is set, includes the right to invoke
     ;;; `path_open` with `fdflag::dsync`.
     $fd_datasync
     ;;; The right to invoke `fd_read` and `sock_recv`.
-    ;;
+    ;;;
     ;;; If `rights::fd_seek` is set, includes the right to invoke `fd_pread`.
     $fd_read
     ;;; The right to invoke `fd_seek`. This flag implies `rights::fd_tell`.
@@ -211,7 +220,7 @@
     ;;; The right to invoke `fd_fdstat_set_flags`.
     $fd_fdstat_set_flags
     ;;; The right to invoke `fd_sync`.
-    ;;
+    ;;;
     ;;; If `path_open` is set, includes the right to invoke
     ;;; `path_open` with `fdflag::rsync` and `fdflag::dsync`.
     $fd_sync
@@ -321,7 +330,7 @@
 ;;; A reference to the offset of a directory entry.
 (typename $dircookie
   (int u64
-    ;; In an `fd_readdir` call, this value signifies the start of the directory.
+    ;;; In an `fd_readdir` call, this value signifies the start of the directory.
     (const $start 0)
   )
 )
@@ -437,10 +446,10 @@
   )
 )
 
-;;; Flags determining the method of how paths are resolved.
+;;; Flags determining how paths are resolved.
 (typename $lookupflags
   (flags u32
-    ;;; As long as the resolved path corresponds to a symbolic link, it is expanded.
+    ;;; Automatically resolve symbolic links.
     $symlink_follow
   )
 )
@@ -508,7 +517,9 @@
     (field $nlink $linkcount)
     ;;; For regular files, the file size in bytes. For symbolic links, the length in bytes of the pathname contained in the symbolic link.
     (field $size $filesize)
-    ;;; Last data access timestamp.
+    ;;; Last data access timestamp. This is not guaranteed to reflect all
+    ;;; accesses that have occurred -- implementations may defer or decline
+    ;;; updates to a file or directory's `atim`.
     (field $atim $timestamp)
     ;;; Last data modification timestamp.
     (field $mtim $timestamp)

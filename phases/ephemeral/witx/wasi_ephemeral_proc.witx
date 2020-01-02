@@ -11,6 +11,8 @@
   ;;; Terminate the process normally. An exit code of 0 indicates successful
   ;;; termination of the program. The meanings of other values is dependent on
   ;;; the environment.
+  ;;;
+  ;;; Note: This is similar to `_Exit` in POSIX.
   (@interface func (export "exit")
     ;;; The exit code returned by the process.
     (param $rval $exitcode)

@@ -24,7 +24,7 @@
   ;;; Note: This is similar to `stat` in POSIX.
   (@interface func (export "filestat_get")
     (param $fd $fd)
-    ;;; Flags determining the method of how the path is resolved.
+    ;;; Flags determining how the path is resolved.
     (param $flags $lookupflags)
     ;;; The path of the file or directory to inspect.
     (param $path string)
@@ -37,7 +37,7 @@
   ;;; Note: This is similar to `utimensat` in POSIX.
   (@interface func (export "filestat_set_times")
     (param $fd $fd)
-    ;;; Flags determining the method of how the path is resolved.
+    ;;; Flags determining how the path is resolved.
     (param $flags $lookupflags)
     ;;; The path of the file or directory to operate on.
     (param $path string)
@@ -64,7 +64,7 @@
   ;;; umask to determine which of the user/group/other flags to modify.
   (@interface func (export "permissions_set")
     (param $fd $fd)
-    ;;; Flags determining the method of how the path is resolved.
+    ;;; Flags determining how the path is resolved.
     (param $flags $lookupflags)
     ;;; The path to a file to query.
     (param $path string)
@@ -77,7 +77,7 @@
   ;;; Note: This is similar to `linkat` in POSIX.
   (@interface func (export "link")
     (param $old_fd $fd)
-    ;;; Flags determining the method of how the path is resolved.
+    ;;; Flags determining how the path is resolved.
     (param $old_flags $lookupflags)
     ;;; The source path from which to link.
     (param $old_path string)
@@ -89,17 +89,17 @@
   )
 
   ;;; Open a file or directory.
-  ;;
+  ;;;
   ;;; The returned file descriptor is not guaranteed to be the lowest-numbered
   ;;; file descriptor not currently open; it is randomized to prevent
   ;;; applications from depending on making assumptions about indexes, since this
   ;;; is error-prone in multi-threaded contexts. The returned file descriptor is
   ;;; guaranteed to be less than 2**31.
-  ;;
+  ;;;
   ;;; Note: This is similar to `openat` in POSIX.
   (@interface func (export "open")
     (param $fd $fd)
-    ;;; Flags determining the method of how the path is resolved.
+    ;;; Flags determining how the path is resolved.
     (param $dirflags $lookupflags)
     ;;; The relative path of the file or directory to open, relative to the
     ;;; `dirfd` directory.
@@ -110,7 +110,7 @@
     ;;; implementation is allowed to return a file descriptor with fewer rights
     ;;; than specified, if and only if those rights do not apply to the type of
     ;;; file being opened.
-    ;;
+    ;;;
     ;;; The *base* rights are rights that will apply to operations using the file
     ;;; descriptor itself, while the *inheriting* rights are rights that apply to
     ;;; file descriptors derived from it.
