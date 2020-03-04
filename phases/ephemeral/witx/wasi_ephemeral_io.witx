@@ -7,7 +7,7 @@
 
 (use "typenames.witx")
 
-(module $wasi_ephemeral_fd
+(module $wasi_ephemeral_io
   ;;; Linear memory to be accessed by WASI functions that need it.
   (import "memory" (memory))
 
